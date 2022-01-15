@@ -1,0 +1,43 @@
+#include <bits/stdc++.h>
+using namespace std;
+
+class Triplet{
+    public:
+    int x;
+    int y;
+    int gcd;
+};
+
+Triplet extendedEuclids(int a, int b){
+    if(b == 0){
+        Triplet smallAns;
+        smallAns.gcd = a;
+        smallAns.x = 1;
+        smallAns.y = 0;
+        return smallAns;
+    }
+    
+    Triplet smallAns = extendedEuclids(b, a%b);
+    Triplet ans;
+    ans.x = smallAns.y;
+    ans.gcd = smallAns.gcd;
+    ans.y = smallAns.x - (a/b)*(smallAns.y);
+    return ans;
+}
+
+int modInverse(int a, int m){
+    // as this is the condition for modInverse
+    if(__gcd(a, m) != 1){
+        return -1;
+    }
+    int ans = extendedEuclids(a, m).x;
+    return (ans%m + m) % m;
+}
+
+int main() {
+	int a;
+	int m;
+	cin >> a >> m;
+	cout << modInverse(a, m);
+	return 0;
+}
